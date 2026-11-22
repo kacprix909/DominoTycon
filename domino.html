@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domino Tycoon – Oficjalna Strona Gry (Windows 10 / 11)</title>
+    <style>
+        :root {
+            --bg-dark: #16181f;
+            --bg-card: #212530;
+            --table-green: #2e6e48;
+            --gold: #ffd700;
+            --gold-hover: #ffea54;
+            --text-main: #f4f6fa;
+            --text-muted: #a9b2c3;
+            --accent-blue: #46a0ff;
+            --accent-purple: #b450ff;
+            --accent-red: #ff465a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* GÓRNY PASEK NAWIGACJI */
+        header {
+            background-color: rgba(22, 24, 31, 0.95);
+            border-bottom: 2px solid #2c3140;
+            padding: 16px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 24px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        /* SEKCJA POWITALNA (HERO) */
+        .hero {
+            text-align: center;
+            padding: 80px 8% 70px;
+            background: radial-gradient(circle at top, #273832 0%, var(--bg-dark) 68%);
+            border-bottom: 1px solid #2c3140;
+        }
+
+        .win-badge {
+            display: inline-block;
+            background-color: rgba(70, 160, 255, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(70, 160, 255, 0.4);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 0 auto 32px;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+        }
+
+        .btn-download {
+            display: inline-block;
+            background-color: var(--gold);
+            color: #16181f;
+            font-size: 1.2rem;
+            font-weight: 800;
+            padding: 16px 38px;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.3);
+            transition: transform 0.15s, background-color 0.2s;
+        }
+
+        .btn-download:hover {
+            background-color: var(--gold-hover);
+            transform: translateY(-2px);
+        }
+
+        .file-info {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* SEKCJE OGÓLNE */
+        section {
+            padding: 65px 8%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.1rem;
+            margin-bottom: 40px;
+        }
+
+        h2 span {
+            color: var(--gold);
+        }
+
+        /* KARTY KLOCKÓW DOMINO */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid #303646;
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+
+        .domino-preview {
+            width: 36px;
+            height: 76px;
+            margin: 0 auto 16px;
+            border-radius: 6px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .domino-preview::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.35);
+        }
+
+        .d-normal { background: #f0f0f0; border: 3px solid #a0a0a0; }
+        .d-better { background: #46a0ff; border: 3px solid #1e64c8; }
+        .d-deluxe { background: #b450ff; border: 3px solid #6e1eb4; }
+        .d-premium { background: #ff465a; border: 3px solid #b41428; }
+        .d-gold { background: #ffd700; border: 3px solid #be8c00; }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .reward {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #64ff82;
+            margin-bottom: 6px;
+        }
+
+        .cost {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* STEROWANIE */
+        .controls-box {
+            background-color: var(--bg-card);
+            border: 1px solid #303646;
+            border-radius: 14px;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .control-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        kbd {
+            background-color: #12141a;
+            border: 1px solid #485066;
+            border-bottom-width: 3px;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-family: inherit;
+            font-weight: 700;
+            color: var(--gold);
+            min-width: 58px;
+            text-align: center;
+        }
+
+        /* STOPKA */
+        footer {
+            text-align: center;
+            padding: 30px 8%;
+            border-top: 1px solid #2c3140;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">DOMINO <span>TYCOON</span></div>
+        <nav>
+            <a href="#klocki">Klocki & Sklep</a>
+            <a href="#sterowanie">Sterowanie</a>
+            <a href="#pobierz">Pobierz</a>
+        </nav>
+    </header>
+
+    <div class="hero" id="pobierz">
+        <div class="win-badge">Dostępne na Windows 10 / Windows 11 (64-bit)</div>
+        <h1>Układaj, przewracaj i zdobywaj <span>Ꝃ</span>!</h1>
+        <p>
+            Zacznij z 20 klockami i 10 Ꝃ w portfelu. Projektuj własne tory z góry na zielonym stole, 
+            odblokowuj klocki Premium oraz Złote mnożniki x2 i buduj swoje imperium domina.
+        </p>
+        <!-- Podmień nazwę pliku w href, jeśli Twój instalator nazywa się inaczej -->
+        <a href="DominoTycoon_Instalator.exe" download class="btn-download">
+            Pobierz grę dla Windows (.exe)
+        </a>
+        <div class="file-info">Wersja 1.0 • Pełny instalator dla Windows 10 i 11 • Język polski</div>
+    </div>
+
+    <section id="klocki">
+        <h2>Rodzaje klocków i waluta <span>Ꝃ</span></h2>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="domino-preview d-normal"></div>
+                <h3>Zwykłe</h3>
+                <div class="reward">+2 Ꝃ za sztukę</div>
+                <div class="cost">Sklep: 5 szt. za 5 Ꝃ</div>
+            </div>
+
+            <div class="card">
+                <div class="domino-preview d-better"></div>
+                <h3>Lepsze</h3>
+                <div class="reward">+4 Ꝃ za sztukę</div>
+                <div class="cost">Sklep: 5 szt. za 10 Ꝃ</div>
+            </div>
+
+            <div class="card">
+                <div class="domino-preview d-deluxe"></div>
+                <h3>Deluxe</h3>
+                <div class="reward">+5 Ꝃ za sztukę</div>
+                <div class="cost">Sklep: 5 szt. za 12 Ꝃ</div>
+            </div>
+
+            <div class="card">
+                <div class="domino-preview d-premium"></div>
+                <h3>Premium</h3>
+                <div class="reward">+8 Ꝃ za sztukę</div>
+                <div class="cost">Sklep: 5 szt. za 15 Ꝃ</div>
+            </div>
+
+            <div class="card">
+                <div class="domino-preview d-gold"></div>
+                <h3>Złote (x2)</h3>
+                <div class="reward" style="color: var(--gold);">Mnożnik x2 (3 kolejne)</div>
+                <div class="cost">Sklep: 3 szt. za 15 Ꝃ</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sterowanie">
+        <h2>Jak grać? <span>Sterowanie</span></h2>
+        <div class="controls-box">
+            <div class="control-item">
+                <kbd>LPM</kbd>
+                <span>Postaw wybrany klocek na stole</span>
+            </div>
+            <div class="control-item">
+                <kbd>PPM</kbd>
+                <span>Zabierz klocek z powrotem do plecaka</span>
+            </div>
+            <div class="control-item">
+                <kbd>A / D</kbd>
+                <span>Obróć klocek w lewo lub prawo o 15°</span>
+            </div>
+            <div class="control-item">
+                <kbd>ENTER</kbd>
+                <span>Wybierz kliknięciem klocek startowy</span>
+            </div>
+            <div class="control-item">
+                <kbd>R</kbd>
+                <span>Postaw przewrócone klocki ponownie</span>
+            <div class="control-item">
+                <kbd>R</kbd>
+                <span>Postaw przewrócone klocki ponownie</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Domino Tycoon • Stworzone w Pythonie (pygame-ce) dla systemu Windows 10 / 11
+    </footer>
+
+</body>
+</html>
